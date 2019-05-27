@@ -5,7 +5,7 @@ import "./App.css";
 const App = () => {
   return (
     <div>
-      <h1>Hello World</h1>
+      <h1>Hello o World</h1>
     </div>
   );
 };
