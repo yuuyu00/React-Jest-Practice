@@ -6,10 +6,6 @@ import Counter from '../Counter';
 
 Enzyme.configure({ adapter: new EnzymeAdapter() });
 
-const setCount = jest.fn();
-const useStateSpy = jest.spyOn(React, 'useState');
-useStateSpy.mockImplementation(init => [init, setCount]);
-
 let wrapper;
 beforeEach(() => {
   wrapper = shallow(<Counter />);
@@ -19,24 +15,30 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-it('renders without crashing', () => {
+it('正常にレンダリングされる', () => {
   expect(wrapper).toBeTruthy();
 });
 
-it('click countup button once to count increses one', () => {
-  wrapper
-    .find('#increment_button')
-    .props()
-    .onClick();
-  expect(setCount).toHaveBeenCalledWith(1);
-});
+describe('setStateが正常な引数で実行される', () => {
+  it('カウントアップボタンを押したらカウントアップされる', () => {
+    wrapper.find('#increment_button').simulate('click');
 
-it('click countup button once to count decreses one', () => {
-  wrapper
-    .find('#decrement_button')
-    .props()
-    .onClick();
-  expect(setCount).toHaveBeenCalledWith(-1);
+    expect(wrapper.find('#count').text()).toBe('1');
+  });
+
+  it('カウントダウンボタンを押したらカウントダウンされる', () => {
+    wrapper.find('#increment_button').simulate('click');
+    wrapper.find('#decrement_button').simulate('click');
+
+    expect(wrapper.find('#count').text()).toBe('0');
+  });
+
+  it('カウントダウンするとマイナスになる場合エラーメッセージを表示する', () => {
+    wrapper.find('#decrement_button').simulate('click');
+
+    expect(wrapper.find('#errorMessage').text()).toBe('Cannot decrement');
+    expect(wrapper.find('#count').text()).toBe('0');
+  });
 });
 
 it('renders two buttons', () => {

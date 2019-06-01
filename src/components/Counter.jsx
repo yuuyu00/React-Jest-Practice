@@ -2,12 +2,19 @@ import React from 'react';
 
 const Counter = () => {
   const [count, setCount] = React.useState(0);
+  const [errorMsg, setErrorMsg] = React.useState('');
 
   const handleCountUpClick = () => {
+    setErrorMsg('');
     setCount(count + 1);
   };
 
   const handleCountDownClick = () => {
+    if (count === 0) {
+      setErrorMsg('Cannot decrement');
+      return;
+    }
+
     setCount(count - 1);
   };
 
@@ -23,9 +30,11 @@ const Counter = () => {
       </div>
     );
   };
+
   return (
     <div>
-      {count}
+      <div id="count">{count}</div>
+      <div id="errorMessage">{errorMsg}</div>
       {renderCounterButton()}
     </div>
   );
