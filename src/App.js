@@ -1,11 +1,11 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React from 'react';
+import Counter from './components/Counter';
+import './App.css';
 
 const App = () => {
   return (
     <div>
-      <h1>Hello o World</h1>
+      <Counter />
     </div>
   );
 };
